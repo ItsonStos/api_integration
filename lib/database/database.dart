@@ -1,8 +1,7 @@
 import 'dart:math';
-
-import 'package:flutter_webapi_first_course/helpers/phrases.dart';
 import 'package:uuid/uuid.dart';
 
+import '../helpers/phrases.dart';
 import '../models/journal.dart';
 
 Map<String, Journal> generateRandomDatabase({

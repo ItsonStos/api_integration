@@ -1,7 +1,8 @@
+import 'package:api_integration/models/journal.dart';
+import 'package:api_integration/services/journal_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webapi_first_course/helpers/weekday.dart';
-import 'package:flutter_webapi_first_course/models/journal.dart';
-import 'package:flutter_webapi_first_course/services/journal_service.dart';
+import '../../helpers/weekday.dart'; 
+
 
 class AddJournalScreen extends StatefulWidget {
   final Journal journal;
