@@ -1,10 +1,7 @@
 import 'dart:convert';
-
 import 'package:api_integration/services/http_interceptors.dart';
-//import 'package:flutter_webapi_first_course/services/http_interceptors.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/http.dart';
-
 import '../models/journal.dart';
 
 class JournalService {
@@ -36,7 +33,22 @@ class JournalService {
     return false;
   }
 
-  void get() async {
-    //http.Response response = await client.get(Uri.parse(getURL()));
+  Future<List<Journal>> getAll() async {
+    http.Response response = await client.get(Uri.parse(getURL()));
+    
+
+    if (response.statusCode != 200){
+      throw Exception();
+    }
+
+    List<Journal> list = [];
+
+    List<dynamic> listDynamic = json.decode(response.body);
+    
+    for(var jsonMap in listDynamic){
+      list.add(Journal.fromMap(jsonMap));
+    }
+
+    return list;
   }
 }

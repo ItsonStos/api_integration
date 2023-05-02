@@ -6,7 +6,8 @@ import '../../../models/journal.dart';
 class JournalCard extends StatelessWidget {
   final Journal? journal;
   final DateTime showedDate;
-  const JournalCard({Key? key, this.journal, required this.showedDate})
+  final Function refreshFunction;
+  const JournalCard({Key? key, this.journal, required this.showedDate, required this.refreshFunction})
       : super(key: key);
 
   @override
@@ -57,7 +58,7 @@ class JournalCard extends StatelessWidget {
                       ),
                     ),
                     padding: const EdgeInsets.all(8),
-                    child: Text(WeekDay(journal!.createdAt.weekday).short),
+                    child: Text(WeekDay(journal!.createdAt).short),
                   ),
                 ],
               ),
@@ -94,6 +95,7 @@ class JournalCard extends StatelessWidget {
               updatedAt: showedDate,
             ),
           ).then((value) {
+            refreshFunction();
             if (value == true) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -113,7 +115,7 @@ class JournalCard extends StatelessWidget {
           height: 115,
           alignment: Alignment.center,
           child: Text(
-            "${WeekDay(showedDate.weekday).short} - ${showedDate.day}",
+            "${WeekDay(showedDate).short} - ${showedDate.day}",
             style: const TextStyle(fontSize: 12),
             textAlign: TextAlign.center,
           ),

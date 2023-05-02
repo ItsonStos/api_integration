@@ -9,7 +9,7 @@ import 'screens/home_screen/home_screen.dart';
 void main() {
   runApp(const MyApp());
 
-  //TODO: Remover testes
+
   JournalService journalService = JournalService();
   journalService.register(Journal.empty());
   //journalService.get();
