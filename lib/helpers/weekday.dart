@@ -5,8 +5,7 @@ class WeekDay {
   late String long;
 
   WeekDay(this.date) {
-    int weekday = date.weekday;
-    switch (weekday) {
+    switch (date.weekday) {
       case 7:
         short = "dom";
         long = "Domingo";
