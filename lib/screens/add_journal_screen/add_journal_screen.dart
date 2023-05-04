@@ -13,10 +13,12 @@ class AddJournalScreen extends StatefulWidget {
 }
 
 class _AddJournalScreenState extends State<AddJournalScreen> {
-  TextEditingController contentController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
+    _contentController.text = widget.journal.content;
     return Scaffold(
       appBar: AppBar(
         title: Text(            WeekDay(widget.journal.createdAt).toString()),
@@ -32,7 +34,7 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: TextField(
-          controller: contentController,
+          controller: _contentController,
           keyboardType: TextInputType.multiline,
           style: const TextStyle(fontSize: 24),
           expands: true,
@@ -45,7 +47,7 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
 
   registerJournal(BuildContext context) async {
     JournalService journalService = JournalService();
-    widget.journal.content = contentController.text;
+    widget.journal.content = _contentController.text;
     journalService.register(widget.journal).then((value) {
       if (value) {
         Navigator.pop(context, DisposeStatus.success);
