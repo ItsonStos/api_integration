@@ -21,8 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<String, Journal> database = {};
 
   final ScrollController _listScrollController = ScrollController();
-
-  JournalService service = JournalService();
+  final JournalService _journalService = JournalService();
 
   @override
   void initState() {
@@ -59,11 +58,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void refresh() async {
-    List<Journal> listJournal = await service.getAll();
+    List<Journal> listJournal = await _journalService.getAll();
     setState(() {
       database = {};
       for (Journal journal in listJournal) {
         database[journal.id] = journal;
+      }
+      if (_listScrollController.hasClients){
+        final double position = _listScrollController.position.maxScrollExtent;
+        _listScrollController.jumpTo(position);
       }
     });
   }

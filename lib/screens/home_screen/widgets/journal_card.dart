@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../../../helpers/weekday.dart';
 import '../../../models/journal.dart';
+import '../../add_journal_screen/add_journal_screen.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
@@ -88,32 +89,7 @@ class JournalCard extends StatelessWidget {
     } else {
       return InkWell(
         onTap: () {
-          //TODO: Modularizar operação
-          Navigator.pushNamed(
-            context,
-            'add-journal',
-            arguments: Journal(
-              id: const Uuid().v1(),
-              content: "",
-              createdAt: showedDate,
-              updatedAt: showedDate,
-            ),
-          ).then((value) {
-            refreshFunction();
-            if (value == true) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Registro salvo com sucesso."),
-                ),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Houve uma falha ao registar."),
-                ),
-              );
-            }
-          });
+          callAddJournalScreen(context);         
         },
         child: Container(
           height: 115,
@@ -128,7 +104,32 @@ class JournalCard extends StatelessWidget {
     }
   }
 
-  callAddJournalScreen(BuildContext context){
-    Navigator.pushNamed(context, routeName)
+  callAddJournalScreen(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      'add-journal',
+      arguments: Journal(
+        id: const Uuid().v1(),
+        content: "",
+        createdAt: showedDate,
+        updatedAt: showedDate,
+      ),
+    ).then((value) {
+      refreshFunction();
+
+      if (value == DisposeStatus.success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Registro salvo com sucesso."),
+          ),
+        );
+      } else if (value == DisposeStatus.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Houve uma falha ao registrar."),
+          ),
+        );
+      }
+    });
   }
 }
