@@ -6,7 +6,8 @@ import '../../helpers/weekday.dart';
 
 class AddJournalScreen extends StatefulWidget {
   final Journal journal;
-  const AddJournalScreen({Key? key, required this.journal}) : super(key: key);
+  final bool isEditing;
+  const AddJournalScreen({Key? key, required this.journal, required this.isEditing}) : super(key: key);
 
   @override
   State<AddJournalScreen> createState() => _AddJournalScreenState();
@@ -48,6 +49,7 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
   registerJournal(BuildContext context) async {
     JournalService journalService = JournalService();
     widget.journal.content = _contentController.text;
+    if (widget.isEditing){
     journalService.register(widget.journal).then((value) {
       if (value) {
         Navigator.pop(context, DisposeStatus.success);
@@ -55,6 +57,16 @@ class _AddJournalScreenState extends State<AddJournalScreen> {
         Navigator.pop(context, DisposeStatus.error);
       }
     });
+
+    } else {
+      journalService.register(widget.journal).then((value){
+        if(value){
+        Navigator.pop(context, DisposeStatus.success);          
+        } else {
+          Navigator.pop(context, DisposeStatus.error);
+        }
+      });
+    }
   }
 }
 enum DisposeStatus { exit, error, success }

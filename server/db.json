@@ -1,4 +1,23 @@
 {
   "learnhttp": {},
-  "journals" : []
+  "journals": [
+    {
+      "id": "6234e210-eab0-11ed-9d19-ed06434dab25",
+      "content": "férias!",
+      "created_at": "2023-05-03 16:17:24.124375",
+      "updated_at": "2023-05-03 16:17:24.124375"
+    },
+    {
+      "id": "96fc9500-eab1-11ed-9d19-ed06434dab25",
+      "content": "de novo",
+      "created_at": "2023-05-04 16:17:24.124375",
+      "updated_at": "2023-05-04 16:17:24.124375"
+    },
+    {
+      "id": "b1c98d30-edd0-11ed-84fc-f7995d5b48ef",
+      "content": "novo",
+      "created_at": "2023-05-07 15:45:18.811940",
+      "updated_at": "2023-05-07 15:45:18.811940"
+    }
+  ]
 }
