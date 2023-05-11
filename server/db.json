@@ -1,4 +1,11 @@
 {
+  "users": [
+    {
+      "email": "itsonsantos@gmail.com",
+      "password": "$2a$10$w31hsBO14lMxwS.RJItXVehFA45V1vZi1fDJMrDY4mZBcC7ry.UGq",
+      "id": 1
+    }
+  ],
   "learnhttp": {},
   "journals": [
     {
