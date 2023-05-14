@@ -4,6 +4,11 @@
       "email": "itsonsantos@gmail.com",
       "password": "$2a$10$w31hsBO14lMxwS.RJItXVehFA45V1vZi1fDJMrDY4mZBcC7ry.UGq",
       "id": 1
+    },
+    {
+      "email": "itsonsantos2@gmail.com",
+      "password": "$2a$10$.jYlLOJX.RQhnOcL.njN2uCQQ2ZWEH.1Cw1XdcY3GMEGOfkpATDZC",
+      "id": 2
     }
   ],
   "learnhttp": {},
