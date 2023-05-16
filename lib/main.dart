@@ -1,20 +1,32 @@
-//import 'package:api_integration/services/journal_service.dart';
+
 import 'package:api_integration/screens/login_screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import 'models/journal.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/add_journal_screen/add_journal_screen.dart';
 import 'screens/home_screen/home_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  bool isLogged = await verifyToken();
+  runApp(MyApp(isLogged: isLogged,));
+}
+
+Future<bool> verifyToken() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString("acessToken");
+  if(token != null){
+    return true;
+  }
+  return false;
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool isLogged;
+  const MyApp({Key? key, required this.isLogged}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp( 
       title: 'Simple Journal',
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark(),
@@ -30,7 +42,7 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: GoogleFonts.bitterTextTheme(),
       ),
-      initialRoute: "login",
+      initialRoute: (isLogged) ? "home" : "login",
       routes: {
         "home": (context) => const HomeScreen(),
         "login": (context) => LoginScreen(),

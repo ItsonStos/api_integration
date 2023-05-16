@@ -1,13 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
-
 import '../../services/auth_service.dart';
+import '../commom/confirmation_dialog.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passController = TextEditingController();
 
-  AuthService service = AuthService();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +42,23 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const Text("Entre ou Registre-se"),
                   TextFormField(
+                    controller: _emailController,
                     decoration: const InputDecoration(
                       label: Text("E-mail"),
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
                   ),
                   TextFormField(
-                    controller: _passController,
+                    controller: _passwordController,
                     decoration: const InputDecoration(label: Text("Senha")),
                     keyboardType: TextInputType.visiblePassword,
                     maxLength: 16,
                     obscureText: true,
                   ),
                   ElevatedButton(
-                      onPressed: login(), 
+                      onPressed: () {
+                        tryLogin(context);
+                      },
                       child: const Text("Continuar")),
                 ],
               ),
@@ -64,9 +68,29 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-  login(){
+
+  void tryLogin(BuildContext context) async {
     String email = _emailController.text;
-    String password = _passController.text;
-    service.login(email: email, password: password);
+    String password = _passwordController.text;
+    AuthService authService = AuthService();
+    try {
+      String token = await authService.login(email: email, password: password);
+      Navigator.pushReplacementNamed(context, 'home');
+    } on UserNotFoundException {
+      showConfirmationDialog(
+        context,
+        title: "Usuário ainda não existe",
+        content: "Deseja criar um novo usuário com email $email?",
+        affirmativeOption: "Criar",
+      ).then(
+        (value) async {
+          if (value) {
+            //TODO: Tratar caso do usuário não existente
+            String token = await authService.register(email: email, password: password);
+            Navigator.pushReplacementNamed(context, 'home');
+          }
+        },
+      );
+    }
   }
 }
