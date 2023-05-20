@@ -48,18 +48,32 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.refresh))
         ],
       ),
-      body: (userId != null && token != null) ? 
-      ListView(
-        controller: _listScrollController,
-        children: generateListJournalCards(
-          token: token!,
-          userId: userId!,
-          windowPage: windowPage,
-          currentDay: currentDay,
-          database: database,
-          refreshFunction: refresh,
-        ),
-      ) : const Center(child: CircularProgressIndicator(),),
+      drawer: Drawer(
+        child: ListView(children: [
+          ListTile(
+            onTap: () {
+              logout();
+            },
+            title: const Text("sair"),
+            leading: const Icon(Icons.logout),
+          )
+        ]),
+      ),
+      body: (userId != null && token != null)
+          ? ListView(
+              controller: _listScrollController,
+              children: generateListJournalCards(
+                token: token!,
+                userId: userId!,
+                windowPage: windowPage,
+                currentDay: currentDay,
+                database: database,
+                refreshFunction: refresh,
+              ),
+            )
+          : const Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 
@@ -68,8 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
       int? token = prefs.getInt("acessToken");
       String? email = prefs.getString("email");
       int? id = prefs.getInt("id");
-       if (token != null && id != null && email != null) {
-        _journalService.getAll(id: id.toString(), token: token).then((List<Journal> listJournal) {
+      if (token != null && id != null && email != null) {
+        _journalService
+            .getAll(id: id.toString(), token: token)
+            .then((List<Journal> listJournal) {
           setState(() {
             token = token;
             userId = id;
@@ -89,6 +105,13 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.pushReplacementNamed(context, 'login');
       }
     });
-    
+  }
+
+  logout(){
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.clear();
+      Navigator.pushReplacementNamed(context, 'login');
+
+    } );
   }
 }
